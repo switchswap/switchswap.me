@@ -41,7 +41,7 @@ weight = 4
   colortheme = "dark" # dark, light, white, or classic
   rss = true # generate rss feed. default value is false
   googleAnalyticsAsync = true # use asynchronous tracking. Synchronous tracking by default
-  logo = "images/logo.png"
+  logo = "/images/logo.png"
 
   # Home page settings
   description = "Yo, I'm Swap! I'm currently a Senior Computer Science student at the University of Southern California and this site is where I write about my projects, thoughts, and other online adventures!"
