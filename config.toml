@@ -1,4 +1,4 @@
-baseURL = "switchswap.me"
+baseURL = "/"
 languageCode = "en-us"
 title = "Swap Space"
 theme = "cactus"
