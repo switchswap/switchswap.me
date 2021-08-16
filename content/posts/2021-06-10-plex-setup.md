@@ -3,11 +3,21 @@ title: Automating Plex and avoiding your ISP with Docker!
 startDate: 2021-06-10 18:00:00
 date: 2021-08-16 03:37:00
 categories:
-    - homelab, tutorial
+    - homelab
+    - tutorial
 tags:
-    - plex, docker, vpn, automation
+    - plex
+    - docker
+    - vpn
+    - automation
 keywords:
-    - homelab, tutorial, plex, docker, vpn, sonarr, radarr
+    - homelab
+    - tutorial
+    - plex
+    - docker
+    - vpn
+    - sonarr
+    - radarr
 ---
 Alright, so I finally got around to automating my Plex server so here's a little write-up detailing how I did it for anyone trying to acheive the same (and also for me when I inevitably break everything XD)!
 
