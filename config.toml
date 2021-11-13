@@ -44,7 +44,7 @@ weight = 4
   logo = "/images/logo.png"
 
   # Home page settings
-  description = "Yo, I'm Swap! I'm currently a Senior Computer Science student at the University of Southern California and this site is where I write about my projects, thoughts, and other online adventures!"
+  description = "Yo, I'm Swap! I'm currently a Computer Science grad student at the University of Southern California and this site is where I write about my projects, thoughts, and other online adventures!"
   mainSection = "posts" # your main section
   showAllPostsOnHomePage = false # default
   postsOnHomePage = 5 # this option will be ignored if showAllPostsOnHomePage is set to true
