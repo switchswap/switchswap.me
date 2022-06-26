@@ -2,11 +2,17 @@
 title: A Quick Primer on API Calls From Java
 date: 2021-11-12 12:56:00
 categories:
-    - CSCI 201, Programming
+    - CSCI 201
+    - Programming
 tags:
-    - Yelp, API, Java
+    - Yelp
+    - API
+    - Java
 keywords:
-    - Yelp, API, Java, CSCI 201
+    - Yelp
+    - API
+    - Java
+    - CSCI 201
 ---
 API calls are just network requests to some endpoint (Some base url + some extension).   
 That endpoint can take serveral parameters and will return a status code and maybe some data if all went well.
