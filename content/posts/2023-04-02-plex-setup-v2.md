@@ -20,7 +20,7 @@ It's been years since I created my Plex server and approximately a week since I 
 
 A good amount has changed so I'll break this down into some chunks.
 
-Note: This is a follow up to [my previous post](/posts/2021-06-10-plex-setup#preface) so you'll prob want to referene that for some context.
+Note: This is a follow up to [my previous post](/posts/2021-06-10-plex-setup) so you'll prob want to referene that for some context.
 
 # Torrenting changes
 Previously I used the [transmission-openvpn](https://github.com/haugene/docker-transmission-openvpn) container to route all torrent traffic through a vpn. This was pretty great up until some private trackers didn't like the version of transmission in this container and I also started running into a bunch of [403 errors](https://github.com/haugene/docker-transmission-openvpn/issues/1493) with it. The WebUI was also feeling pretty clunky and would lag out all the time.
@@ -35,14 +35,16 @@ I added on qBittorrent (since it seems to be loved across all my private tracker
 I didn't want to remake the flow chart from [my previous post](/posts/2021-06-10-plex-setup#preface) but if you can imagine all this slotted into where the `Transmission OpenVPN` section is, that'd be awesome!
 
 ## Why two torrent clients?
-Honestly, I just didn't want to sift through my client and figure out which torrents I can just remove without worrying about seeing quotas lol. I also liked the organization of having separate clients for private and public trackers.
+Torrents from private trackers usually have seeding quotas so I wanted to keep these separate from public torrents. Now I can hop into my public client and remove things without a care (after seeding a bit dw lol).
 
 # Folder structure changes
-I didn't talk about it in my original post but from the `.env` file I provided, you could see I had my downloads in `/opt/downloads` and my media in `/mnt/gdrive`. Under the hood, `/opt/downloads` was a symlink to a local HDD folder and `/mnt/gdrive` was the combination of my Google Drive mount and another folder in that local HDD. Any downloads would, upon completion, be coppied over to that gdrive folder, where they'd sit locally on the HDD and then be uploaded and deleted locally. 
+I didn't talk about it in my original post but from the `.env` file I provided, you could see I had my downloads in `/opt/downloads` and my media in `/mnt/gdrive`. Under the hood, `/opt/downloads` was a symlink to a local HDD folder and `/mnt/gdrive` was the combination of my Google Drive mount and another folder in that local HDD. Any downloads would, upon completion, be copied over to that gdrive folder, where they'd sit locally on the HDD and then be uploaded and deleted locally. To summarise, everything I download is duplicated. The original is left alone to keep seeding, and the duplicate is uploaded and then removed locally.
 
-If everything sat in the gdrive folder, I'd skip the copy step, but I'd probably incur a heavy performance penalty sine I'd be pushing files directly to Google Drive via the mount point. So unfortunately, I end up duplicating the files I download.
+If everything sat in the gdrive folder, I'd skip the copy step, but I think I'd incur a heavy performance penalty since I'd be pushing files directly to Google Drive via the mount point. So unfortunately, I end up duplicating the files I download.
 
-Consequently, I was usually worried about storage space. At the time of the first article I had one HDD mounted but I added some more since then. I didn't want to add all of these volumes to my docker images since that'd get really annoying so I ended up using [mergerfs](https://github.com/trapexit/mergerfs) to merge them all into one folder called `data`. Now I can just pool my drives together and have one mega-drive!! Storage space worries eliminated!
+Consequently, I was usually worried about storage space. At the time of the first article I had one HDD mounted but I've added some more since then. I didn't want to add all of these volumes to my docker images since that'd get really annoying to maintain, so I ended up using [mergerfs](https://github.com/trapexit/mergerfs) to merge them all into one folder called `data`. Now I can just pool my drives together and have one mega-drive!! Storage space worries eliminated! 
+
+Note: If one drive in the pool fails, only the data on that drive will be lost.
 
 The new folder structure looks like this:
 ```
@@ -60,6 +62,8 @@ The new folder structure looks like this:
     └── TV_Anime
 ```
 
+I definitely need a better way to handle downloads and uploading in the future, but until then I'll keep throwing storage drives at the problem! 😈
+
 # Docker changes
 I added a couple images and changed others a bit as follows...
 
@@ -70,10 +74,10 @@ I added a couple images and changed others a bit as follows...
 [Plex Meta Manager](https://github.com/meisnate12/Plex-Meta-Manager) manages metadata as the name implies. It adds some cool dynamic collections and makes my movie thumbnails look pretty!
 
 ## Watchtower exceptions
-Watchtower did its job too well and my torrent clients kept updating to the latest version. Bad for private trackers lol! I've since added `"com.centurylinklabs.watchtower.enable=false"` to the gluetun and qbittorrent images to prevent auto-updates just in case. I'll just update those manually.
+Watchtower did its job too well and my torrent clients kept updating to the latest version -- bad for private trackers since they expect specific verions! I've since added `com.centurylinklabs.watchtower.enable=false` to the gluetun and qbittorrent images to prevent auto-updates just in case. I'll just update those manually.
 
 # Conclusion
-And that's everything! I can add/remove (prob not the best idea to remove lol) drives as I please, my torrents are easier to manage, I have some plex goodies, and hopefully nothing auto-updates into breaking! I've been running this setup for a few months now and so far so good!
+And that's everything! I can add/remove (prob not the best idea to remove) drives as I please, my torrents are easier to manage, I have some plex goodies, and hopefully nothing auto-updates into breaking! I've been running this setup for a few months now and so far so good!
 
-Until next time things break,
+Until next time things break,  
 Swap
